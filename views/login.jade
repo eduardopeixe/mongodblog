@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  .container
+    form(method='post', action='/users/login')
+      .jumbotron
+        .container
+          h5 LOGIN
+          form-group
+            label Username
+            input.form-control(type='text',name='username',placeholder='Enter Name')
+          form-group
+            label Password
+            input.form-control(type='password',name='password',placeholder='Enter Password')
+          button.btn.btn-default(type='submit') Submit
+          p Or signup 
+            a(href='register') here

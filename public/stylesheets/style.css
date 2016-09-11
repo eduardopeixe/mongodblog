@@ -15,10 +15,11 @@ h5 {
   padding-left: 15px;
   border-bottom: 3px solid darkgray;
 }
+
 .jumbotron p {
   padding: 10px;
   font-size: 17px;
-  line-height: 25px;  
+  line-height: 25px;
 }
 
 .form-control {
@@ -40,4 +41,8 @@ a {
   color: gray;
   text-align: center;
   background: -webkit-linear-gradient(left, transparent, #eee, transparent);
+}
+
+a .btn.btn-default{
+  margin-left: 10px;
 }

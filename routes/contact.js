@@ -18,7 +18,7 @@ router.post('/send', function(req, res, next) {
   });
 
   var mailOptions = {
-    from: 'John Doe <john@outlook.com>',
+    from: req.body.email,
     to: 'mongodblog@gmail.com',
     subject: 'Website Submission',
     text: ' Yout have a new submission with the following details...Name: ' + req.body.name+ ' \nEmail: ' + req.body.email + ' \nMessage: ' + req.body.message,

@@ -1,0 +1,27 @@
+extends layout
+
+block content
+  .container
+    if errors
+      each error, i in errors
+        li.alert.alert-danger #{error.msg}
+    form(method='post', action='/users/register')
+      .jumbotron
+        .container
+          h5 REGISTER
+          form-group
+            label Username
+            input.form-control(type='text',name='username',placeholder='Enter Name')
+          form-group
+            label Email
+            input.form-control(type='text',name='email',placeholder='Enter Email')
+          form-group
+            label Password
+            input.form-control(type='password',name='password',placeholder='Enter Password')
+          form-group
+            label Confirm Password
+            input.form-control(type='password',name='confirm',placeholder='Confirm Password')
+          form-group
+            label Profile Image
+            input.form-control(name='profileiamge',type='file')
+          button.btn.btn-default(type='submit') Submit
