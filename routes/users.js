@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var expressValidator = require('express-validator');
 
+var User = require('../models/user');
+
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   res.render('respond with a resource');
@@ -67,7 +69,7 @@ router.post('/register', function(req, res, next){
     });
 
     //Create a new User
-    User.creteUser(newUser, function(err, user){
+    User.createUser(newUser, function(err, user){
       if(err) throw err;
       console.log(user);
     });
