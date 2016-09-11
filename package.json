@@ -6,6 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "bcrypt": "^0.8.7",
     "body-parser": "~1.15.1",
     "connect-flash": "^0.1.1",
     "cookie-parser": "~1.4.3",
@@ -19,6 +20,7 @@
     "mongoose": "^4.6.0",
     "morgan": "~1.7.0",
     "multer": "^1.2.0",
+    "node-gyp": "^3.4.0",
     "nodemailer": "*",
     "passport": "^0.3.2",
     "passport-http": "^0.3.0",
