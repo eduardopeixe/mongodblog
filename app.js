@@ -74,7 +74,10 @@ app.use(function(req, res, next){
   next();
 });
 
-
+app.get('*', function(req, res, next){
+  res.locals.user = req.user || null;
+  next();
+});
 app.use('/', routes);
 app.use('/about', about);
 app.use('/contact', contact);

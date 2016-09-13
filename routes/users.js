@@ -42,7 +42,7 @@ router.post('/register', function(req, res, next){
     var profileImageSize            = req.files.prpfileimage.size;
   }else{
     var profileImageNAme            = 'noimage.png';
-    var profileImagePath            = '/images';
+    var profileImagePath            = '/images/noimage.png';
   }
 
   //Form validation
@@ -77,7 +77,7 @@ router.post('/register', function(req, res, next){
     });
 
     //Success message
-    req.flash('success', 'You are now registerd and may log in');
+    req.flash('success', 'You are now registered and may log in');
     res.location('/');
     res.redirect('/');
   }
@@ -123,6 +123,13 @@ router.post('/login', passport.authenticate('local',
             console.log('routes/users - Authentication successful');
             req.flash('success', 'You are logged in');
             res.redirect('/');
-          })
+});
+
+router.get('/logout', function(req, res){
+  req.logout();
+  req.flash('success', 'You have logged out');
+  res.redirect('/users/login');
+});
+
 
 module.exports = router;

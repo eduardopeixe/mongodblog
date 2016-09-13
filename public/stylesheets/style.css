@@ -46,3 +46,29 @@ a {
 a .btn.btn-default{
   margin-left: 10px;
 }
+
+ul.success li, ul.info li, ul.error li{
+  margin: 20px 0 20px 0;
+  padding: 5px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  list-style: none;
+}
+
+ul.error li{
+  color: red;
+  background: #f2dede;
+  border-color: #d6e9c6;
+}
+
+ul.info li{
+  color: #31700f;
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+}
+
+ul.success li{
+  color: #3c763d;
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+}
