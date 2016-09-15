@@ -19,6 +19,9 @@ var UserSchema = mongoose.Schema({
   },
   profileImage: {
     type: String
+  },
+  confirmed: {
+    type: String
   }
 });
 

@@ -1,8 +1,9 @@
-var express = require('express');
-var router = express.Router();
-var expressValidator = require('express-validator');
-var passport        = require('passport');
-var LocalStrategy   = require('passport-local').Strategy;
+var express           = require('express');
+var router            = express.Router();
+var expressValidator  = require('express-validator');
+  var passport        = require('passport');
+var LocalStrategy     = require('passport-local').Strategy;
+var nodemailer        = require('nodemailer');
 
 var User = require('../models/user');
 
@@ -30,7 +31,6 @@ router.post('/register', function(req, res, next){
   var password = req.body.password;
   var confirm  = req.body.confirm;
 
-
   // Check profile image
   if(req.files && req.files.pofileimage){
     console.log('routes/users - Uploading File...');
@@ -47,13 +47,33 @@ router.post('/register', function(req, res, next){
 
   //Form validation
   req.checkBody('username', 'Username field is required').notEmpty();
-  req.checkBody('email', 'Email field is required').notEmpty();
+  req.checkBody('email', 'Email field is required').notEmpty().isEmail();
   req.checkBody('password', 'Password field is required').notEmpty();
   req.checkBody('confirm', 'Passwords do not match').equals(password);
 
   // Check for errors
   var errors = req.validationErrors();
 
+  //Check for username
+  User.getUserByUsername(username, function(err, user){
+    console.log('testing username exists');
+    if(err){
+      console.log('routes/users/register - check username ' + err);
+      return;
+    }
+    if(user){
+      console.log('routes/users - user found');
+      var error = {param: "username", msg: "Username already in use", value: "<received input>"};
+      if (!errors){
+        errors = [];
+      }
+      errors.push(error);
+      console.log('routes/users - error ' + errors);
+    }
+  });
+
+
+  console.log('out of get user - ' + errors);
   if(errors){
     res.render('register', {
       errors    : errors,
@@ -64,10 +84,11 @@ router.post('/register', function(req, res, next){
     });
   }else{
     var newUser = new User({
-      username : username,
-      email    : email,
-      password : password,
-      profileImage: profileImagePath
+      username    : username,
+      email       : email,
+      password    : password,
+      profileImage: profileImagePath,
+      confirmed   : 'N'
     });
 
     //Create a new User
@@ -76,8 +97,32 @@ router.post('/register', function(req, res, next){
       console.log('routes/users ' + user);
     });
 
+    // Send email to confirm existing email address
+    var transporter = nodemailer.createTransport({
+      service: 'Gmail',
+      auth: {
+        user: 'mongodblog@gmail.com',
+        pass: 'georgiancollege'
+      }
+    });
+    var mailOptions = {
+      from: req.body.email,
+      to: email,
+      subject: 'MongoBlog - Email confirmation',
+      text: ' Please confirm your email: \nhttps://advweb.herokuapp.com/users/confirm?username=' + username + '&code=' + password,
+      html: '<p>Please confirm your email: <a href="https://advweb.herokuapp.com/users/confirm?username=' + username + '&code=' + password + '">confirm</a>',
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+      if(error){
+        console.log('routes/users - registration email error ' +error);
+      }
+
+      console.log('Registration message sent: ' + info.response);
+    });
+
     //Success message
-    req.flash('success', 'You are now registered and may log in');
+    req.flash('success', 'You are now registered. Please check your email to confirm your account');
     res.location('/');
     res.redirect('/');
   }
